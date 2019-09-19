@@ -11,7 +11,6 @@ export default class MovieList extends Component {
   }
 
   componentDidMount() {
-    console.log("list mounted", this.props)
     this.setState({ movies: this.props.movies })
   }
 

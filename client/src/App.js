@@ -16,24 +16,22 @@ export default class App extends React.Component {
   }
 
   addToSavedList = movie => {
-    this.setState({ movies: [...this.state.savedList, movie] })
+    this.setState({ savedList: [...this.state.savedList, movie] });
   };
 
   componentDidMount() {
     axios
       .get(`http://localhost:5000/api/movies/`)
-      .then(res => {
-        this.setState({ movies: res.data })
-      })
-      .catch(err => console.log(err.response))
-  }
+      .then(res => this.setState({ movies: res.data}))
+      .catch(err => console.log(err.response));
+  };
+
   render () {
   return (
     <>
       <SavedList list={this.state.savedList} />
       <Route exact path="/"
         render={() => {
-          console.log(this.state.movies)
           return <MovieList movies={this.state.movies} />;
         }}
       />
