@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import {Link} from "react-router-dom";
 import axios from "axios";
 
 const initialState = {
@@ -23,11 +22,14 @@ const UpdateMovieForm = props => {
         }
     }, [match, movies])
 
-    const handleSubmit = () => {
+    const handleSubmit = (event) => {
+        event.preventDefault();
         axios
-          .put(`http://localhost:5000/api/movies/${movie.id}`, movie)
-          .then(res => console.log(res))
-          .catch(err => console.log(err.response));
+            .put(`http://localhost:5000/api/movies/${movie.id}`, movie)
+            .then(res => {
+                props.history.push("/");
+            })
+            .catch(err => console.log(err.response));
     };
 
     return (
@@ -62,7 +64,7 @@ const UpdateMovieForm = props => {
                     value={movie.stars}
                     onChange={({ target }) => setMovie({ ...movie, [target.name]: target.value })}
                 />
-                <Link to="/" onClick={handleSubmit}><button>Update</button></Link>
+                <button onClick={handleSubmit}>Update</button>
             </form>
         </div>
     );

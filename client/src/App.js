@@ -22,32 +22,39 @@ export default class App extends React.Component {
   componentDidMount() {
     axios
       .get(`http://localhost:5000/api/movies/`)
-      .then(res => this.setState({ movies: res.data}))
+      .then(res => this.setState({ movies: res.data }))
       .catch(err => console.log(err.response));
   };
 
-  render () {
-  return (
-    <>
-      <SavedList list={this.state.savedList} />
-      <Route exact path="/"
-        render={() => {
-          return <MovieList movies={this.state.movies} />;
-        }}
-      />
-      <Route
-        path="/movies/:id"
-        render={props => {
-          return <Movie {...props} addToSavedList={this.addToSavedList} savedList={this.state.savedList} />;
-        }}
-      />
-      <Route
-        path="/update-movie/:id"
-        render={props => {
-          return <UpdateMovieForm {...props} movies={this.state.movies} />;
-        }}
-      />
-    </>
-  );
-};
+  // componentDidUpdate() {
+  //   axios
+  //     .get(`http://localhost:5000/api/movies/`)
+  //     .then(res => this.setState({ movies: res.data }))
+  //     .catch(err => console.log(err.response));
+  // };
+
+  render() {
+    return (
+      <>
+        <SavedList list={this.state.savedList} />
+        <Route exact path="/"
+          render={() => {
+            return <MovieList movies={this.state.movies} />;
+          }}
+        />
+        <Route
+          path="/movies/:id"
+          render={props => {
+            return <Movie {...props} addToSavedList={this.addToSavedList} savedList={this.state.savedList} />;
+          }}
+        />
+        <Route
+          path="/update-movie/:id"
+          render={props => {
+            return <UpdateMovieForm {...props} movies={this.state.movies} />;
+          }}
+        />
+      </>
+    );
+  };
 };
