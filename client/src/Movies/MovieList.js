@@ -11,16 +11,14 @@ export default class MovieList extends Component {
   }
 
   componentDidMount() {
-    axios
-      .get("http://localhost:5000/api/movies")
-      .then(res => this.setState({ movies: res.data }))
-      .catch(err => console.log(err.response));
+    console.log("list mounted", this.props)
+    this.setState({ movies: this.props.movies })
   }
 
   render() {
     return (
       <div className="movie-list">
-        {this.state.movies.map(movie => (
+        {this.props.movies.map(movie => (
           <MovieDetails key={movie.id} movie={movie} />
         ))}
       </div>
