@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 
 const initialState = {
@@ -9,25 +9,18 @@ const initialState = {
     stars: []
 }
 
-const UpdateMovieForm = props => {
+const AddMovieForm = props => {
 
     const [movie, setMovie] = useState(initialState);
-    const { match, movies } = props;
 
-    useEffect(() => {
-        const id = match.params.id;
-        const movieToUpdate = movies.find(movie => `${movie.id}` === id);
-        if (movieToUpdate) {
-            setMovie(movieToUpdate);
-        }
-    }, [match, movies])
-
-    const handleSubmit = (event) => {
+    const handleSubmit = event => {
         event.preventDefault();
         axios
-            .put(`http://localhost:5000/api/movies/${movie.id}`, movie)
+            .post(`http://localhost:5000/api/movies`, movie)
             .then(res => {
+                console.log(res)
                 props.getMovies();
+                setMovie(initialState);
                 props.history.push("/")
             })
             .catch(err => console.log(err.response));
@@ -35,7 +28,7 @@ const UpdateMovieForm = props => {
 
     return (
         <div>
-            <h2>Update Movie</h2>
+            <h2>Add Movie</h2>
             <form>
                 <input
                     type="text"
@@ -63,12 +56,16 @@ const UpdateMovieForm = props => {
                     name="stars"
                     placeholder="stars"
                     value={movie.stars}
-                    onChange={({ target }) => setMovie({ ...movie, [target.name]: target.value })}
+                    onChange={({ target }) => {
+                        const actors = target.value;
+                        const actorsArr = actors.split(",");
+                        setMovie({ ...movie, [target.name]: actorsArr })
+                    }}
                 />
-                <button onClick={handleSubmit}>Update</button>
+                <button onClick={handleSubmit}>Add</button>
             </form>
         </div>
     );
 };
 
-export default UpdateMovieForm;
+export default AddMovieForm;
